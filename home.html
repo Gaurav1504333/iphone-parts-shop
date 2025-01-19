@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - iPhone Parts Order</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='logo1.png') }}" type="image/x-icon">
+</head>
+<body>
+    <header class="sticky">
+        <nav>
+            <div class="logo">
+                <h1>iPhone Parts Order</h1>
+            </div>
+            <ul class="nav-links">
+                <li class="zindex"><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="zindex"><a href="{{ url_for('parts') }}">Products</a></li>
+                <li class="zindex"><a href="/home" onclick="showPhoneNumber()">Contact</a></li>
+                {% if user_initials %}
+                    <li class="user-icon">
+                        <a href="javascript:void(0);" onclick="toggleUserMenu()">{{ user_initials }}</a>
+                        <ul class="dropdown" id="userDropdown">
+                            <li><a href="{{ url_for('orders') }}">My Orders</a></li>
+                            <li><a href="{{ url_for('view_cart') }}">Cart</a></li>
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}" class="login">Login</a></li>
+                {% endif %}
+            </ul>
+            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <p class="rating"><span class="star">&#9733;</span> 5 Star</p>
+                    <h2>Get Your iPhone Parts Fast!</h2>
+                    <p>Select your iPhone model and order high-quality parts today!</p>
+                    <form method="POST" action="{{ url_for('home') }}">
+                        <select class="menu" name="model" required>
+                            <option value="" disabled selected>Select your iPhone model</option>
+                            <option value="iPhone 5s">iPhone 5s</option>
+                            <option value="iPhone 6">iPhone 6</option>
+                            <option value="iPhone 6 Plus">iPhone 6 Plus</option>
+                            <option value="iPhone 6s">iPhone 6s</option>
+                            <option value="iPhone 6s Plus">iPhone 6s Plus</option>
+                            <option value="iPhone 7">iPhone 7</option>
+                            <option value="iPhone 7 Plus">iPhone 7 Plus</option>
+                            <option value="iPhone 8">iPhone 8</option>
+                            <option value="iPhone 8 Plus">iPhone 8 Plus</option>
+                            <option value="iPhone X">iPhone X</option>
+                            <option value="iPhone XR">iPhone XR</option>
+                            <option value="iPhone XS">iPhone XS</option>
+                            <option value="iPhone XS Max">iPhone XS Max</option>
+                            <option value="iPhone 11">iPhone 11</option>
+                            <option value="iPhone 11 Pro">iPhone 11 Pro</option>
+                            <option value="iPhone 11 Pro Max">iPhone 11 Pro Max</option>
+                            <option value="iPhone 12">iPhone 12</option>
+                            <option value="iPhone 12 Mini">iPhone 12 Mini</option>
+                            <option value="iPhone 12 Pro">iPhone 12 Pro</option>
+                            <option value="iPhone 12 Pro Max">iPhone 12 Pro Max</option>
+                            <option value="iPhone 13">iPhone 13</option>
+                            <option value="iPhone 13 Mini">iPhone 13 Mini</option>
+                            <option value="iPhone 13 Pro">iPhone 13 Pro</option>
+                            <option value="iPhone 13 Pro Max">iPhone 13 Pro Max</option>
+                            <option value="iPhone 14">iPhone 14</option>
+                            <option value="iPhone 14 Plus">iPhone 14 Plus</option>
+                            <option value="iPhone 14 Pro">iPhone 14 Pro</option>
+                            <option value="iPhone 14 Pro Max">iPhone 14 Pro Max</option>
+                            <option value="iPhone 15">iPhone 15</option>
+                            <option value="iPhone 15 Pro">iPhone 15 Pro</option>
+                            <option value="iPhone 15 Pro Max">iPhone 15 Pro Max</option>
+                            <option value="iPhone 16">iPhone 16</option>
+                            <option value="iPhone 16 Pro">iPhone 16 Pro</option>
+                            <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+                        </select>
+                        <button type="submit" class="btn">Get Started</button>
+                    </form>
+                    
+                    <div class="stats">
+                        <div>
+                            <strong>500+</strong>
+                            <p>Parts Available</p>
+                        </div>
+                        <div>
+                            <strong>1000+</strong>
+                            <p>Happy Customers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="{{ url_for('static', filename='hero-image.jpg') }}" alt="iPhone Parts" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <section class="about">
+            <h2>About Us</h2>
+            <div class="about-images">
+                <img src="{{ url_for('static', filename='about-image1.jpg') }}" alt="About Us Image 1" loading="lazy">
+                <img src="{{ url_for('static', filename='about-image2.jpg') }}" alt="About Us Image 2" loading="lazy">
+                <img src="{{ url_for('static', filename='about-image3.jpg') }}" alt="About Us Image 3" loading="lazy">
+            </div>
+            <p>At iPhone Parts, we specialize in providing high-quality replacement parts for your iPhone. Our mission is to make it easy and affordable for you to repair and upgrade your device. We are committed to offering a wide range of parts, from batteries and screens to small components like connectors and sensors.</p>
+        </section>
+
+        <section class="feedback">
+            <h2>Customer Feedback</h2>
+            <div class="feedback-container">
+                <div class="feedback-item">
+                    <p>"I was able to fix my iPhone quickly thanks to the high-quality parts from iPhone Parts. Excellent service!"</p>
+                    <p><strong>- Sarah M.</strong></p>
+                </div>
+                <div class="feedback-item">
+                    <p>"Great prices and fast shipping! I'll definitely be ordering again."</p>
+                    <p><strong>- John D.</strong></p>
+                </div>
+                <div class="feedback-item">
+                    <p>"The parts were exactly as described and worked perfectly. Highly recommend this store!"</p>
+                    <p><strong>- Emily R.</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or need assistance, feel free to reach out to us:</p>
+            <p>Email: support@iphoneparts.com</p>
+            <p>Phone: +1 (123) 456-7890</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('parts') }}">Products</a></li>
+                    <li><a href="{{ url_for('view_cart') }}">Contact</a></li>
+                    <li><a href="{{ url_for('checkout') }}">Order Now</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Information</h3>
+                <p>Email: support@iphoneparts.com</p>
+                <p>Phone: +1 (123) 456-7890</p>
+                <p>Address: 123 iPhone St, Repair City, Tech State, 56789</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+        function showPhoneNumber() {
+            alert("Phone Number: +91-9167998919");
+        }
+            
+        function toggleUserMenu() { 
+            const userDropdown = document.getElementById('userDropdown'); 
+            userDropdown.classList.toggle('active'); 
+        }
+        function minimizeUserMenu() { 
+            const userDropdown = document.getElementById('userDropdown'); 
+            if (userDropdown.classList.contains('active')) { 
+                userDropdown.classList.remove('active'); 
+            } 
+        } 
+        window.addEventListener('scroll', minimizeUserMenu);
+    </script>
+</body>
+</html>
