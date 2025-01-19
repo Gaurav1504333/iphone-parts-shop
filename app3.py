@@ -13,7 +13,7 @@ app.secret_key = 'b1e2c3d4a5f67890123456789abcdef'
 db = mysql.connector.connect(
     host='localhost',
     user='root',  # Your MySQL username
-    password='Gaurav@123*',  # Your MySQL password
+    password='',  # Your MySQL password
     database='iphone_parts_order'
 )
 @app.route('/signup', methods=['GET', 'POST'])
@@ -217,9 +217,9 @@ def send_signup_otp():
 
 
 # Twilio Configuration
-twilio_account_sid = 'ACb941e0963925ff38ffa131e6258ba0e9'
-twilio_auth_token = 'c83822a9f767d7d39f570ab5fde23d16'
-twilio_phone_number = '+16502970662'
+twilio_account_sid = ''
+twilio_auth_token = ''
+twilio_phone_number = ''
 
 available_parts = {
     "Battery": "High-quality battery for iPhone",
@@ -611,8 +611,8 @@ def send_sms(phone_number, message):
 
 def send_email_to_distributor(to_email, order_id, user_name, user_phone, user_address, iphone_model, total_price, order_details):
     # SMTP Configuration for Elastic Email
-    sender_email = "gauravchudasama333@gmail.com"
-    sender_password = "8BC6070B0EDDCB13A9B7C1D4F338D4B0B21E"
+    sender_email = ""
+    sender_password = ""
     smtp_host = "smtp.elasticemail.com"
     smtp_port = 2525
 
