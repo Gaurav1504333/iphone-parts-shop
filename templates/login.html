@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='logo1.png') }}" type="image/x-icon">
+</head>
+<body>
+    <header class="sticky">
+        <nav>
+            <div class="logo">
+                <h1>iPhone Parts Order</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('parts') }}">Products</a></li>
+                <li><a href="/cart" onclick="showPhoneNumber()">Contact</a></li>
+            </ul>
+            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="login">
+            <h2>Login</h2>
+            <form method="POST" action="{{ url_for('login') }}">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+            <p>Forgot your password? <a href="#" onclick="triggerForgotPassword()">Click here</a></p>
+            
+            <!-- OTP Section -->
+            <div id="otp-section" style="display: none;">
+                <h3>OTP Verification</h3>
+                <label for="otp">Enter OTP:</label>
+                <input type="text" id="otp" name="otp" required>
+                <button type="button" class="btn btn-primary" onclick="validateOtp()">Verify OTP</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        function showPhoneNumber() {
+            alert("Phone Number: +91-9167998919");
+        }
+
+        function triggerForgotPassword() {
+            const phone = document.getElementById('phone').value;
+            if (!phone) {
+                alert('Please enter your phone number first.');
+                return;
+            }
+
+            fetch('/initiate_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phone: phone })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show OTP section
+                    document.getElementById('otp-section').style.display = 'block';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function validateOtp() {
+            const phone = document.getElementById('phone').value;
+            const otp = document.getElementById('otp').value;
+
+            fetch('/verify_user_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phone: phone, otp: otp })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Your password is: ${data.password}`);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

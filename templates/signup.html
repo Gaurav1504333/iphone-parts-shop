@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='logo1.png') }}" type="image/x-icon">
+</head>
+<body>
+    <header class="sticky">
+        <nav>
+            <div class="logo">
+                <h1>iPhone Parts Order</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('parts') }}">Products</a></li>
+                <li><a href="/signup" onclick="showPhoneNumber()">Contact</a></li>
+            </ul>
+            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="signup">
+            <h2>Signup</h2>
+            <form method="POST" action="{{ url_for('signup') }}">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="otp">OTP:</label>
+                <input type="text" id="otp" name="otp" required>
+
+                <button type="button" onclick="sendSignupOTP()" class="btn btn-primary">Send OTP</button>
+                <button type="submit" class="btn btn-primary">Signup</button>
+            </form>
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </section>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        function sendSignupOTP() {
+            let phone = document.getElementById('phone').value;
+            console.log("Phone number entered:", phone);
+
+            if (!phone.startsWith("+91")) {
+                phone = "+91" + phone;
+            }
+            console.log("Formatted phone number:", phone);
+
+            fetch('/send_signup_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phone: phone })
+            }).then(response => {
+                console.log("Response status:", response.status);
+                if (response.ok) {
+                    alert('OTP sent successfully!');
+                } else {
+                    alert('Failed to send OTP. Please try again.');
+                }
+            }).catch(error => {
+                console.error("Error occurred:", error);
+            });
+        }
+        function showPhoneNumber() {
+            alert("Phone Number: +91-9167998919");
+        }
+    </script>
+</body>
+</html>
